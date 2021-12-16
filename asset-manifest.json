@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.js": "/athkar/static/js/main.a99c2661.chunk.js",
-    "main.js.map": "/athkar/static/js/main.a99c2661.chunk.js.map",
-    "runtime-main.js": "/athkar/static/js/runtime-main.8e1a28b4.js",
-    "runtime-main.js.map": "/athkar/static/js/runtime-main.8e1a28b4.js.map",
-    "static/css/2.92495511.chunk.css": "/athkar/static/css/2.92495511.chunk.css",
-    "static/js/2.f7680a27.chunk.js": "/athkar/static/js/2.f7680a27.chunk.js",
-    "static/js/2.f7680a27.chunk.js.map": "/athkar/static/js/2.f7680a27.chunk.js.map",
-    "index.html": "/athkar/index.html",
-    "static/css/2.92495511.chunk.css.map": "/athkar/static/css/2.92495511.chunk.css.map",
-    "static/js/2.f7680a27.chunk.js.LICENSE.txt": "/athkar/static/js/2.f7680a27.chunk.js.LICENSE.txt",
-    "static/media/500.css": "/athkar/static/media/inter-vietnamese-500-normal.c15997f1.woff2"
+    "main.js": "/static/js/main.a99c2661.chunk.js",
+    "main.js.map": "/static/js/main.a99c2661.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.31332f87.js",
+    "runtime-main.js.map": "/static/js/runtime-main.31332f87.js.map",
+    "static/css/2.fbcdc5b2.chunk.css": "/static/css/2.fbcdc5b2.chunk.css",
+    "static/js/2.f7680a27.chunk.js": "/static/js/2.f7680a27.chunk.js",
+    "static/js/2.f7680a27.chunk.js.map": "/static/js/2.f7680a27.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.fbcdc5b2.chunk.css.map": "/static/css/2.fbcdc5b2.chunk.css.map",
+    "static/js/2.f7680a27.chunk.js.LICENSE.txt": "/static/js/2.f7680a27.chunk.js.LICENSE.txt",
+    "static/media/500.css": "/static/media/inter-vietnamese-500-normal.c15997f1.woff2"
   },
   "entrypoints": [
-    "static/js/runtime-main.8e1a28b4.js",
-    "static/css/2.92495511.chunk.css",
+    "static/js/runtime-main.31332f87.js",
+    "static/css/2.fbcdc5b2.chunk.css",
     "static/js/2.f7680a27.chunk.js",
     "static/js/main.a99c2661.chunk.js"
   ]
