@@ -6,12 +6,16 @@ import { ColorModeSwitcher } from './components/ColorModeSwitcher';
 import { TashkeelModeSwitcher } from './components/TashkeelModeSwitcher';
 import ChakraCarousel from './components/ChakraCarousel/ChakraCarousel';
 
+import useGaTracker from './components/GaTracker';
+
 import athkar from './resources/athkar.json'
 import tashkeelAthkar from './resources/athkar_tashkeel.json';
 import nightAthkar from './resources/athkar_night.json';
 import tashkeelNightAthkar from './resources/athkar_night_tashkeel.json';
 
 function App() {
+  useGaTracker();
+
   const [tashkeelState, updateTashkeelState] = useState(0);
 
   const athkarNormal = useColorModeValue(athkar, nightAthkar);
