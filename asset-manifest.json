@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.js": "/athkar/static/js/main.ec7d63fd.chunk.js",
+    "main.js.map": "/athkar/static/js/main.ec7d63fd.chunk.js.map",
+    "runtime-main.js": "/athkar/static/js/runtime-main.8e1a28b4.js",
+    "runtime-main.js.map": "/athkar/static/js/runtime-main.8e1a28b4.js.map",
+    "static/css/2.92495511.chunk.css": "/athkar/static/css/2.92495511.chunk.css",
+    "static/js/2.f7680a27.chunk.js": "/athkar/static/js/2.f7680a27.chunk.js",
+    "static/js/2.f7680a27.chunk.js.map": "/athkar/static/js/2.f7680a27.chunk.js.map",
+    "index.html": "/athkar/index.html",
+    "static/css/2.92495511.chunk.css.map": "/athkar/static/css/2.92495511.chunk.css.map",
+    "static/js/2.f7680a27.chunk.js.LICENSE.txt": "/athkar/static/js/2.f7680a27.chunk.js.LICENSE.txt",
+    "static/media/500.css": "/athkar/static/media/inter-vietnamese-500-normal.c15997f1.woff2"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.8e1a28b4.js",
+    "static/css/2.92495511.chunk.css",
+    "static/js/2.f7680a27.chunk.js",
+    "static/js/main.ec7d63fd.chunk.js"
+  ]
+}
