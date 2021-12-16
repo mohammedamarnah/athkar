@@ -6,7 +6,7 @@ export default function useGaTracker() {
 
   useEffect(() => {
     if (!window.location.href.includes("localhost")) {
-      ReactGA.initialize("G-ZGH8P3T8L3");
+      ReactGA.initialize("UA-74113004-2");
     }
     setInitialized(true);
   }, []);
