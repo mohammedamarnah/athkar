@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import { Box, Container, Icon, Center, Text, HStack, useColorModeValue, useColorMode } from '@chakra-ui/react'
+import { Container, useColorModeValue } from '@chakra-ui/react'
+
 import { ThekrHeader, ThekrBox } from './components/Thekr';
 import { ColorModeSwitcher } from './components/ColorModeSwitcher';
 import { TashkeelModeSwitcher } from './components/TashkeelModeSwitcher';
-import { FaGithub } from 'react-icons/fa';
 import ChakraCarousel from './components/ChakraCarousel/ChakraCarousel';
-
-import "fontsource-inter/500.css";
 
 import athkar from './resources/athkar.json'
 import tashkeelAthkar from './resources/athkar_tashkeel.json';
@@ -19,7 +17,8 @@ function App() {
   const athkarNormal = useColorModeValue(athkar, nightAthkar);
   const athkarTashkeel = useColorModeValue(tashkeelAthkar, tashkeelNightAthkar);
 
-  const athkarComps = (tashkeelState === 0 ? athkarTashkeel : athkarNormal).map((t, i) => {
+  const athkarToMapOn = (tashkeelState === 0 ? athkarTashkeel : athkarNormal);
+  const athkarComps = athkarToMapOn.map((t, i) => {
     return (<ThekrBox thekr={t} key={i} />);
   });
 

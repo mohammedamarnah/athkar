@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RepeatIcon } from "@chakra-ui/icons";
 import {
   useColorModeValue,
@@ -9,7 +9,6 @@ import {
   Center,
   Text, 
   Flex,
-  useColorMode,
 } from "@chakra-ui/react";
 
 export function ThekrHeader({ mode }) {
@@ -43,61 +42,66 @@ export function ThekrContent({ thekrInfo }) {
         <Heading w="full" fontSize='lg' mb={2} color={innerColor}>
           {thekrInfo.header}
         </Heading>
-        <Text w="full" fontSize='sm'>
+        <Text w="full" fontSize='md'>
           {thekrInfo.body} 
           <Text as='span' w='full' color="gray.500" fontSize='sm'>
             {thekrInfo.subtitle}
           </Text>
         </Text>
-        <Text w="full" fontSize='md' color={innerColor}>{thekrInfo.footer}</Text>
+        <Text w="full" fontSize='sm' color={innerColor}>{thekrInfo.footer}</Text>
       </VStack>
     </Flex>
   )
 }
 
-export function ThekrCounter({ thekrInfo }) {
-  const [thekrCount, updateThekrCount] = useState(parseInt(thekrInfo.count));
-
+export function ThekrCounter({ totalCount, count, updateState }) {
   const handleCount = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    if (thekrCount - 1 < 0) return;
-    updateThekrCount(thekrCount - 1);
+    if (count - 1 < 0) return;
+    updateState(count - 1);
   }
 
   const handleReset = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    updateThekrCount(parseInt(thekrInfo.count));
+    updateState(parseInt(totalCount));
   }
 
   const buttonColors = useColorModeValue("orange.500", "teal")
+  const boxShadowColor = useColorModeValue('md', 'dark-lg');
 
   return (
     <HStack>
       <Circle
         as='button'
-        size='50px' f
+        size='50px'
         ontSize='xl'
         bg={useColorModeValue("white", 'gray.300')}
-        boxShadow={useColorModeValue('md', 'dark-lg')}
+        boxShadow={boxShadowColor}
         onClick={handleReset}> <RepeatIcon color={buttonColors} /> </Circle>
       <Circle
         as='button'
         size='50px'
         fontSize='xl'
         bg={buttonColors}
-        boxShadow={useColorModeValue('md', 'dark-lg')}
-        onClick={handleCount}> {thekrCount} </Circle>
+        boxShadow={boxShadowColor}
+        onClick={handleCount}> {count} </Circle>
     </HStack>
   )
 }
 
 export function ThekrBox({ thekr }) {
+  const [thekrCount, updateThekrCount] = useState(parseInt(thekr.count));
+
+  useEffect(() => {
+    updateThekrCount(parseInt(thekr.count));
+  }, [thekr]);
+
   return (
     <VStack spacing={-5}>
       <ThekrContent thekrInfo={thekr} />
-      <ThekrCounter thekrInfo={thekr} />
+      <ThekrCounter totalCount={thekr.count} count={thekrCount} updateState={updateThekrCount} />
     </VStack>
   )
 }

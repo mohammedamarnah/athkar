@@ -17,7 +17,6 @@ import {
   Button,
   Flex,
   Box,
-  useColorMode,
   useColorModeValue
 } from "@chakra-ui/react";
 
