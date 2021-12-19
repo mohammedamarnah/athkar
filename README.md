@@ -7,7 +7,7 @@ This app uses node version 16.13.1.
 
 `npm run start` will run the app on port 3000. 
 
-`npm run build` will export a production-optimized build (minifid, compiled and optimized JS).
+`npm run build` will export a production-optimized build (minified, compiled and optimized JS).
 
 ## Contribution
 Contributions are always welcome (and sometimes needed). Anything that you think might enhance the experience of the user is very welcome, but here are some ideas:
