@@ -68,25 +68,28 @@ export function ThekrCounter({ totalCount, count, updateState }) {
     updateState(parseInt(totalCount));
   }
 
-  const buttonColors = useColorModeValue("orange.500", "teal")
-  const boxShadowColor = useColorModeValue('md', 'dark-lg');
+  const buttonColors = useColorModeValue("orange.500", "teal");
+  const boxShadowColor = useColorModeValue('lg', 'dark-lg');
+  const countText = count > 1 ? "مرّات" : "مرة";
 
   return (
     <HStack>
       <Circle
         as='button'
-        size='50px'
+        size='46px'
         ontSize='xl'
         bg={useColorModeValue("white", 'gray.300')}
         boxShadow={boxShadowColor}
+        marginRight={3}
         onClick={handleReset}> <RepeatIcon color={buttonColors} /> </Circle>
       <Circle
         as='button'
-        size='50px'
-        fontSize='xl'
+        size='64px'
+        fontSize='lg'
         bg={buttonColors}
         boxShadow={boxShadowColor}
-        onClick={handleCount}> {count} </Circle>
+        dir="rtl"
+        onClick={handleCount}> {`${count} ${countText}`} </Circle>
     </HStack>
   )
 }

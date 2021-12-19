@@ -150,13 +150,12 @@ const Slider = ({
   const handleDecrementClick = () => {
     setTrackIsActive(true);
     !(activeItem === positions.length - positions.length) &&
-      setActiveItem((prev) => prev - 1);
+    setActiveItem((prev) => (prev - 1 < 0 ? positions.length - 1 : prev - 1));
   };
 
   const handleIncrementClick = () => {
     setTrackIsActive(true);
-    !(activeItem === positions.length - constraint) &&
-      setActiveItem((prev) => prev + 1);
+    setActiveItem((prev) => (prev + 1 >= positions.length ? 0 : prev + 1));
   };
 
   const bgGradientR = useColorModeValue(
