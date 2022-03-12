@@ -74,7 +74,7 @@ export function ThekrCounter({ totalCount, count, updateState, athkarCount, setA
 
   const buttonColors = useColorModeValue("orange.500", "teal");
   const boxShadowColor = useColorModeValue('lg', 'dark-lg');
-  const countText = count > 1 ? "مرّات" : "مرة";
+  const countText = count > 1 ? "مرّات" : "مرّة";
 
   return (
     <HStack>
