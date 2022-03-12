@@ -75,7 +75,6 @@ export function ThekrCounter({ totalCount, count, updateState, athkarCount, setA
   const buttonColors = useColorModeValue("orange.500", "teal");
   const boxShadowColor = useColorModeValue('lg', 'dark-lg');
   const countText = count > 1 ? "مرّات" : "مرة";
-  const nextText = count == 1 ? <ArrowRightIcon size='32px'/> : null;
 
   return (
     <HStack>
@@ -94,7 +93,7 @@ export function ThekrCounter({ totalCount, count, updateState, athkarCount, setA
         bg={buttonColors}
         boxShadow={boxShadowColor}
         dir="rtl"
-        onClick={handleCount}> {(count == 1 ? nextText : `${count} ${countText}`)} </Circle>
+        onClick={handleCount}> {`${count} ${countText}`} </Circle>
     </HStack>
   )
 }
