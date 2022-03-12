@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { RepeatIcon } from "@chakra-ui/icons";
+import { ArrowRightIcon, RepeatIcon } from "@chakra-ui/icons";
 import {
   useColorModeValue,
   Heading,
@@ -54,12 +54,16 @@ export function ThekrContent({ thekrInfo }) {
   )
 }
 
-export function ThekrCounter({ totalCount, count, updateState }) {
+export function ThekrCounter({ totalCount, count, updateState, athkarCount, setActiveItem, setTrackIsActive }) {
   const handleCount = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    if (count - 1 < 0) return;
-    updateState(count - 1);
+    if (count - 1 <= 0) {
+      setTrackIsActive(true);
+      setActiveItem((prev) => (prev + 1 >= athkarCount ? 0 : prev + 1));
+    } else {
+      updateState(count - 1);
+    }
   }
 
   const handleReset = (e) => {
@@ -71,6 +75,7 @@ export function ThekrCounter({ totalCount, count, updateState }) {
   const buttonColors = useColorModeValue("orange.500", "teal");
   const boxShadowColor = useColorModeValue('lg', 'dark-lg');
   const countText = count > 1 ? "مرّات" : "مرة";
+  const nextText = count == 1 ? <ArrowRightIcon size='32px'/> : null;
 
   return (
     <HStack>
@@ -89,22 +94,28 @@ export function ThekrCounter({ totalCount, count, updateState }) {
         bg={buttonColors}
         boxShadow={boxShadowColor}
         dir="rtl"
-        onClick={handleCount}> {`${count} ${countText}`} </Circle>
+        onClick={handleCount}> {(count == 1 ? nextText : `${count} ${countText}`)} </Circle>
     </HStack>
   )
 }
 
-export function ThekrBox({ thekr }) {
+export function ThekrBox({ thekr, athkarCount, setActiveItem, setTrackIsActive}) {
   const [thekrCount, updateThekrCount] = useState(parseInt(thekr.count));
 
   useEffect(() => {
     updateThekrCount(parseInt(thekr.count));
   }, [thekr]);
 
+  const counterProps = {
+    athkarCount,
+    setActiveItem,
+    setTrackIsActive
+  };
+
   return (
     <VStack spacing={-5}>
       <ThekrContent thekrInfo={thekr} />
-      <ThekrCounter totalCount={thekr.count} count={thekrCount} updateState={updateThekrCount} />
+      <ThekrCounter totalCount={thekr.count} count={thekrCount} updateState={updateThekrCount} {...counterProps} />
     </VStack>
   )
 }

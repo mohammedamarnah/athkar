@@ -34,11 +34,9 @@ const transitionProps = {
   mass: 3
 };
 
-export const ChakraCarousel = ({ children, gap }) => {
-  const [trackIsActive, setTrackIsActive] = useState(false);
+export const ChakraCarousel = ({ children, gap, activeItem, setActiveItem, trackIsActive, setTrackIsActive }) => {
   const [multiplier, setMultiplier] = useState(0.35);
   const [sliderWidth, setSliderWidth] = useState(0);
-  const [activeItem, setActiveItem] = useState(0);
   const [constraint, setConstraint] = useState(0);
   const [itemWidth, setItemWidth] = useState(0);
 

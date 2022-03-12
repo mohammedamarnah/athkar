@@ -17,13 +17,26 @@ function App() {
   useGaTracker();
 
   const [tashkeelState, updateTashkeelState] = useState(0);
+  const [activeItem, setActiveItem] = useState(0);
+  const [trackIsActive, setTrackIsActive] = useState(false);
+  const gap = 32;
 
   const athkarNormal = useColorModeValue(athkar, nightAthkar);
   const athkarTashkeel = useColorModeValue(tashkeelAthkar, tashkeelNightAthkar);
 
   const athkarToMapOn = (tashkeelState === 0 ? athkarTashkeel : athkarNormal);
   const athkarComps = athkarToMapOn.map((t, i) => {
-    return (<ThekrBox thekr={t} key={i} />);
+    const key = i;
+    const thekr = t;
+    const athkarCount = athkarNormal.length;
+    const thekrBoxProps = {
+      key,
+      thekr,
+      athkarCount,
+      setActiveItem,
+      setTrackIsActive
+    };
+    return (<ThekrBox {...thekrBoxProps}/>);
   });
 
   const widths = {
@@ -33,14 +46,22 @@ function App() {
     lg: "57.5rem",
     xl: "75rem",
     xxl: "87.5rem"
-  }
+  };
+
+  const carouselProps = {
+    gap,
+    activeItem,
+    setActiveItem,
+    trackIsActive,
+    setTrackIsActive
+  };
 
   return (
     <Container py={20} px={0} maxW={widths}>
       <ColorModeSwitcher />
       <TashkeelModeSwitcher currentState={tashkeelState} updateState={updateTashkeelState} />
       <ThekrHeader />
-      <ChakraCarousel gap={32}>
+      <ChakraCarousel {...carouselProps}>
         {athkarComps}
       </ChakraCarousel>
     </Container>
