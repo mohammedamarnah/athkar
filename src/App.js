@@ -6,7 +6,7 @@ import { ColorModeSwitcher } from './components/ColorModeSwitcher';
 import { TashkeelModeSwitcher } from './components/TashkeelModeSwitcher';
 import ChakraCarousel from './components/ChakraCarousel/ChakraCarousel';
 
-import { setWithExpiry, getWithExpiry, compareTime} from './helpers';
+import { setWithExpiry, getWithExpiry, setInitialColorMode } from './helpers';
 
 import athkar from './resources/athkar.json'
 import tashkeelAthkar from './resources/athkar_tashkeel.json';
@@ -39,16 +39,7 @@ function App() {
       const city = location.split(' ')[1];
       fetch(`http://api.aladhan.com/v1/calendarByCity?city=${city}&country=${country}&method=4&month=${month}&year=${year}`)
       .then(resp => resp.json())
-      .then(resp => {
-        const maghribTime = resp.data[now.getDate() - 1].timings.Maghrib;
-        const splittedTime = maghribTime.split(' ');
-        const currentTime = `${now.getHours()}:${now.getMinutes()}`;
-        if (compareTime(currentTime, splittedTime)) {
-          if (!initialColorState) { // if initial color is in light mode.
-            toggleColorMode();
-          }
-        }
-      });
+      .then(resp => setInitialColorMode(resp, now, toggleColorMode, initialColorState));
     } else {
       const key = "x95i5ncysbrcywd9";
       // const key = "tryout";
@@ -60,7 +51,7 @@ function App() {
             setWithExpiry('location', `${country} ${city}`, 2628000000);
             fetch(`http://api.aladhan.com/v1/calendarByCity?city=${city}&country=${country}&method=4&month=${month}&year=${year}`)
               .then(resp => resp.json())
-              .then(resp => console.log(resp));
+              .then(resp => setInitialColorMode(resp, now, toggleColorMode, initialColorState));
         });
     }
   }, []);

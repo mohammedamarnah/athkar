@@ -28,6 +28,22 @@ export function getWithExpiry(key) {
 	return item.value
 }
 
-export function compareTime(time1, time2) {
-  return new Date(`1/1/1999 ${time1}`) > new Date(`1/1/1999 ${time2}`);
+export function timeIsLarger(time1, time2) {
+  return new Date(`1/1/1999 ${time1}`) >= new Date(`1/1/1999 ${time2}`);
+}
+
+export function timeIsBetween(time, betweenA, betweenB) {
+  return timeIsLarger(time, betweenA) && timeIsLarger(betweenB, time);
+}
+
+export function setInitialColorMode(resp, now, toggleColorMode, initialColorState) {
+  const maghribTime = resp.data[now.getDate() - 1].timings.Maghrib.split(' ')[0];
+  const fajrTime = (resp.data[now.getDate()] || resp.data[now.getDate() - 1]).timings.Fajr.split(' ')[0];
+  const currentTime = `${now.getHours()}:${now.getMinutes()}`;
+  console.log(maghribTime, currentTime);
+
+  if ((timeIsBetween(currentTime, fajrTime, maghribTime) && initialColorState) ||
+      (timeIsBetween(currentTime, maghribTime, fajrTime) && !initialColorState)) {
+        toggleColorMode();
+  }
 }
