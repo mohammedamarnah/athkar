@@ -40,7 +40,6 @@ export function setInitialColorMode(resp, now, toggleColorMode, initialColorStat
   const maghribTime = resp.data[now.getDate() - 1].timings.Maghrib.split(' ')[0];
   const fajrTime = (resp.data[now.getDate()] || resp.data[now.getDate() - 1]).timings.Fajr.split(' ')[0];
   const currentTime = `${now.getHours()}:${now.getMinutes()}`;
-  console.log(maghribTime, currentTime);
 
   if ((timeIsBetween(currentTime, fajrTime, maghribTime) && initialColorState) ||
     (timeIsBetween(currentTime, maghribTime, fajrTime) && !initialColorState)) {
