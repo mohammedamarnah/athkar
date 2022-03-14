@@ -36,14 +36,9 @@
   <link rel="icon" type="image/png" sizes="144x144" href="%PUBLIC_URL%/icons/android-icon-144x144.png">
   <link rel="icon" type="image/png" sizes="192x192" href="%PUBLIC_URL%/icons/android-icon-192x192.png">
 
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZGH8P3T8L3"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-ZGH8P3T8L3');
-  </script>
+  <!-- Plausible Analytics -->
+  <script defer data-domain="athkar.co" src="https://plausible.io/js/plausible.js"></script>
+
   <script>
     if ('serviceWorker' in navigator) {
       // Register a service worker hosted at the root of the
