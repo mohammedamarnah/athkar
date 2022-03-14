@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Container, useColorModeValue } from '@chakra-ui/react'
 
 import { ThekrHeader, ThekrBox } from './components/Thekr';
@@ -21,6 +21,11 @@ function App() {
   const [trackIsActive, setTrackIsActive] = useState(false);
   const gap = 32;
 
+  const memoizedReset = useCallback(() => {
+    setTrackIsActive(true);
+    setActiveItem(0);
+  }, []);
+
   const athkarNormal = useColorModeValue(athkar, nightAthkar);
   const athkarTashkeel = useColorModeValue(tashkeelAthkar, tashkeelNightAthkar);
 
@@ -34,7 +39,8 @@ function App() {
       thekr,
       athkarCount,
       setActiveItem,
-      setTrackIsActive
+      setTrackIsActive,
+      memoizedReset
     };
     return (<ThekrBox {...thekrBoxProps}/>);
   });
