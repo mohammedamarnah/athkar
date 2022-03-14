@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 
 export function ColorModeSwitcher() {
-  const { _, toggleColorMode } = useColorMode();
+  const { toggleColorMode } = useColorMode();
   const initialState = useColorModeValue(false, true);
   
   return (

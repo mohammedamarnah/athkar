@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowRightIcon, RepeatIcon } from "@chakra-ui/icons";
+import { RepeatIcon } from "@chakra-ui/icons";
 import {
   useColorModeValue,
   Heading,
@@ -8,10 +8,10 @@ import {
   Circle,
   Center,
   Text, 
-  Flex,
+  Flex
 } from "@chakra-ui/react";
 
-export function ThekrHeader({ mode }) {
+export function ThekrHeader() {
   const thekrStr = useColorModeValue("الصباح", "المساء");
   const headerColor = useColorModeValue("orange.400", "teal.300");
   const mainColor = useColorModeValue("black", "gray.300");
@@ -58,23 +58,23 @@ export function ThekrCounter({ totalCount, count, updateState, athkarCount, setA
   const handleCount = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    if (count - 1 <= 0) {
+    if (count + 1 === totalCount) {
+      updateState(0);
       setTrackIsActive(true);
       setActiveItem((prev) => (prev + 1 >= athkarCount ? 0 : prev + 1));
     } else {
-      updateState(count - 1);
+      updateState(count + 1);
     }
   }
 
   const handleReset = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    updateState(parseInt(totalCount));
+    updateState(0);
   }
 
   const buttonColors = useColorModeValue("orange.500", "teal");
   const boxShadowColor = useColorModeValue('lg', 'dark-lg');
-  const countText = count > 1 ? "مرّات" : "مرّة";
 
   return (
     <HStack>
@@ -93,17 +93,18 @@ export function ThekrCounter({ totalCount, count, updateState, athkarCount, setA
         bg={buttonColors}
         boxShadow={boxShadowColor}
         dir="rtl"
-        onClick={handleCount}> {`${count} ${countText}`} </Circle>
+        onClick={handleCount}> {`${count}/${totalCount}`} </Circle>
     </HStack>
   )
 }
 
-export function ThekrBox({ thekr, athkarCount, setActiveItem, setTrackIsActive}) {
-  const [thekrCount, updateThekrCount] = useState(parseInt(thekr.count));
+export function ThekrBox({ thekr, athkarCount, setActiveItem, setTrackIsActive, memoizedReset}) {
+  const [thekrCount, updateThekrCount] = useState(0);
 
   useEffect(() => {
-    updateThekrCount(parseInt(thekr.count));
-  }, [thekr]);
+    updateThekrCount(0);
+    memoizedReset();
+  }, [thekr, memoizedReset]);
 
   const counterProps = {
     athkarCount,
@@ -114,7 +115,11 @@ export function ThekrBox({ thekr, athkarCount, setActiveItem, setTrackIsActive})
   return (
     <VStack spacing={-5}>
       <ThekrContent thekrInfo={thekr} />
-      <ThekrCounter totalCount={thekr.count} count={thekrCount} updateState={updateThekrCount} {...counterProps} />
+      <ThekrCounter
+        totalCount={parseInt(thekr.count)}
+        count={thekrCount} // current count state
+        updateState={updateThekrCount}
+        {...counterProps} />
     </VStack>
   )
 }
