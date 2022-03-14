@@ -35,8 +35,8 @@ function App() {
     const year = now.getFullYear();
     const location = getWithExpiry('location');
     if (location) {
-      const country = location.split(' ')[0];
-      const city = location.split(' ')[1];
+      const country = location.split('+')[0];
+      const city = location.split('+')[1];
       fetch(`http://api.aladhan.com/v1/calendarByCity?city=${city}&country=${country}&method=4&month=${month}&year=${year}`)
       .then(resp => resp.json())
       .then(resp => setInitialColorMode(resp, now, toggleColorMode, initialColorState));
@@ -48,7 +48,7 @@ function App() {
         .then(payload => {
             const country = payload.location.country.name;
             const city = payload.location.city;
-            setWithExpiry('location', `${country} ${city}`, 2628000000);
+            setWithExpiry('location', `${country}+${city}`, 2628000000);
             fetch(`http://api.aladhan.com/v1/calendarByCity?city=${city}&country=${country}&method=4&month=${month}&year=${year}`)
               .then(resp => resp.json())
               .then(resp => setInitialColorMode(resp, now, toggleColorMode, initialColorState));
