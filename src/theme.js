@@ -2,7 +2,7 @@ import { createBreakpoints } from "@chakra-ui/theme-tools";
 
 const theme = {
   config: {
-    initialColorMode: ((new Date()).getHours() < 17 ? "light" : "dark"),
+    initialColorMode: "light",
     useSystemColorMode: false,
   },
   styles: {

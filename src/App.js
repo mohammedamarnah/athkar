@@ -6,12 +6,38 @@ import { ColorModeSwitcher } from './components/ColorModeSwitcher';
 import { TashkeelModeSwitcher } from './components/TashkeelModeSwitcher';
 import ChakraCarousel from './components/ChakraCarousel/ChakraCarousel';
 
-import { setWithExpiry, getWithExpiry, setInitialColorMode } from './helpers';
+import {
+  setWithExpiry,
+  getWithExpiry,
+  setInitialColorMode,
+  fetchAthanTimes,
+  jsonFetch
+} from './helpers';
 
 import athkar from './resources/athkar.json'
 import tashkeelAthkar from './resources/athkar_tashkeel.json';
 import nightAthkar from './resources/athkar_night.json';
 import tashkeelNightAthkar from './resources/athkar_night_tashkeel.json';
+
+function setDarkModeOnAthan(toggleColor, is_light) {
+  const location = getWithExpiry('location');
+  if (location) {
+    const country = location.split('+')[0];
+    const city = location.split('+')[1];
+    fetchAthanTimes(country, city)
+      .then(resp => setInitialColorMode(resp, toggleColor, is_light));
+  } else {
+    const key = "x95i5ncysbrcywd9";
+    jsonFetch(`https://api.ipregistry.co/?key=${key}`)
+      .then(resp => {
+        const country = resp.location.country.name;
+        const city = resp.location.city;
+        setWithExpiry('location', `${country}+${city}`, 2628000000);
+        fetchAthanTimes(country, city)
+          .then(resp => setInitialColorMode(resp, toggleColor, is_light));
+      });
+  }
+}
 
 function App() {
   const { toggleColorMode } = useColorMode();
@@ -22,7 +48,8 @@ function App() {
 
   const athkarNormal = useColorModeValue(athkar, nightAthkar);
   const athkarTashkeel = useColorModeValue(tashkeelAthkar, tashkeelNightAthkar);
-  const initialColorState = useColorModeValue(false, true);
+  const is_light = useColorModeValue(true, false);
+  const athkarToMapOn = (tashkeelState === 0 ? athkarTashkeel : athkarNormal);
 
   const memoizedReset = useCallback(() => {
     setTrackIsActive(true);
@@ -30,33 +57,9 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const now = new Date();
-    const month = now.getMonth() + 1;
-    const year = now.getFullYear();
-    const location = getWithExpiry('location');
-    if (location) {
-      const country = location.split('+')[0];
-      const city = location.split('+')[1];
-      fetch(`https://api.aladhan.com/v1/calendarByCity?city=${city}&country=${country}&method=4&month=${month}&year=${year}`)
-      .then(resp => resp.json())
-      .then(resp => setInitialColorMode(resp, now, toggleColorMode, initialColorState));
-    } else {
-      const key = "x95i5ncysbrcywd9";
-      // const key = "tryout";
-      fetch(`https://api.ipregistry.co/?key=${key}`)
-        .then(resp => resp.json())
-        .then(payload => {
-            const country = payload.location.country.name;
-            const city = payload.location.city;
-            setWithExpiry('location', `${country}+${city}`, 2628000000);
-            fetch(`https://api.aladhan.com/v1/calendarByCity?city=${city}&country=${country}&method=4&month=${month}&year=${year}`)
-              .then(resp => resp.json())
-              .then(resp => setInitialColorMode(resp, now, toggleColorMode, initialColorState));
-        });
-    }
+    setDarkModeOnAthan(toggleColorMode, is_light);
   }, []);
 
-  const athkarToMapOn = (tashkeelState === 0 ? athkarTashkeel : athkarNormal);
   const athkarComps = athkarToMapOn.map((t, i) => {
     const key = i;
     const thekr = t;

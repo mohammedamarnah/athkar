@@ -81,7 +81,7 @@ export function ThekrCounter({ totalCount, count, updateState, athkarCount, setA
       <Circle
         as='button'
         size='46px'
-        ontSize='xl'
+        fontSize='xl'
         bg={useColorModeValue("white", 'gray.300')}
         boxShadow={boxShadowColor}
         marginRight={3}
