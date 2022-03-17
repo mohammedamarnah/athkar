@@ -16,10 +16,11 @@ export function ThekrHeader() {
   const headerColor = useColorModeValue("orange.400", "teal.300");
   const mainColor = useColorModeValue("black", "gray.300");
   return (
-    <Center dir='rtl' m='3' fontSize='3xl' color={mainColor}>
+    <Center dir='rtl' m='3' fontSize='3xl' color={mainColor} fontFamily='Cairo'>
       أذكار
-      <Center as='span' color={headerColor}>{thekrStr}</Center>
-    </Center>)
+      <Center as='span' color={headerColor} fontWeight='Bold' marginRight={2}>{thekrStr}</Center>
+    </Center>
+  )
 }
 
 export function ThekrContent({ thekrInfo }) {
@@ -90,9 +91,10 @@ export function ThekrCounter({ totalCount, count, updateState, athkarCount, setA
         as='button'
         size='64px'
         fontSize='lg'
+        fontFamily='Cairo'
+        fontWeight='Bold'
         bg={buttonColors}
         boxShadow={boxShadowColor}
-        dir="rtl"
         onClick={handleCount}> {`${count}/${totalCount}`} </Circle>
     </HStack>
   )
