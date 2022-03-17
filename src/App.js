@@ -20,20 +20,20 @@ import nightAthkar from './resources/athkar_night.json';
 import tashkeelNightAthkar from './resources/athkar_night_tashkeel.json';
 
 function setDarkModeOnAthan(toggleColor, is_light) {
-  const location = getWithExpiry('location');
+  const location = getWithExpiry('location_coordinates');
   if (location) {
-    const country = location.split('+')[0];
-    const city = location.split('+')[1];
-    fetchAthanTimes(country, city)
+    const latitude = location.split(' ')[0];
+    const longitude = location.split(' ')[1];
+    fetchAthanTimes(latitude, longitude)
       .then(resp => setInitialColorMode(resp, toggleColor, is_light));
   } else {
     const key = "x95i5ncysbrcywd9";
     jsonFetch(`https://api.ipregistry.co/?key=${key}`)
       .then(resp => {
-        const country = resp.location.country.name;
-        const city = resp.location.city;
-        setWithExpiry('location', `${country}+${city}`, 2628000000);
-        fetchAthanTimes(country, city)
+        const latitude = resp.location.latitude;
+        const longitude = resp.location.longitude;
+        setWithExpiry('location_cooridnates', `${latitude} ${longitude}`, 2628000000);
+        fetchAthanTimes(latitude, longitude)
           .then(resp => setInitialColorMode(resp, toggleColor, is_light));
       });
   }

@@ -2,12 +2,12 @@ export function jsonFetch(url) {
   return fetch(url).then(resp => resp.json())
 }
 
-export function fetchAthanTimes(country, city) {
+export function fetchAthanTimes(latitude, longitude) {
   const now = new Date();
   const month = now.getMonth() + 1;
   const year = now.getFullYear();
-  const api = "https://api.aladhan.com/v1/calendarByCity";
-  return jsonFetch(`${api}?city=${city}&country=${country}&method=4&month=${month}&year=${year}`)
+  const api = "https://api.aladhan.com/v1/calendar";
+  return jsonFetch(`${api}?latitude=${latitude}&longitude=${longitude}&method=4&month=${month}&year=${year}`)
 }
 
 export function setWithExpiry(key, value, ttl) {
@@ -44,18 +44,14 @@ export function timeIsLarger(time1, time2) {
   return new Date(`1/1/1999 ${time1}`) >= new Date(`1/1/1999 ${time2}`);
 }
 
-export function timeIsBetween(time, betweenA, betweenB) {
-  return timeIsLarger(time, betweenA) && timeIsLarger(betweenB, time);
-}
-
 export function setInitialColorMode(resp, toggleColorMode, is_light) {
   const now = new Date();
   const maghribTime = resp.data[now.getDate() - 1].timings.Maghrib.split(' ')[0];
   const fajrTime = (resp.data[now.getDate()] || resp.data[now.getDate() - 1]).timings.Fajr.split(' ')[0];
   const currentTime = `${now.getHours()}:${now.getMinutes() < 10 ? "0" : ""}${now.getMinutes()}`;
 
-  if ((timeIsBetween(currentTime, fajrTime, maghribTime) && !is_light) ||
-    (timeIsLarger(currentTime, maghribTime) && is_light)) {
+  if ((timeIsLarger(currentTime, fajrTime) && !is_light)
+  || (timeIsLarger(currentTime, maghribTime) && is_light)) {
     toggleColorMode();
   }
 }
