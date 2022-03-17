@@ -1,21 +1,21 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Container, useColorMode, useColorModeValue } from '@chakra-ui/react'
+import { Container, useColorMode, useColorModeValue } from '@chakra-ui/react';
 
-import { AddToHomeScreenModal } from './components/AddToHomeScreenModal';
 import { ThekrHeader, ThekrBox } from './components/Thekr';
 import { ColorModeSwitcher } from './components/ColorModeSwitcher';
-import { TashkeelModeSwitcher } from './components/TashkeelModeSwitcher';
 import ChakraCarousel from './components/ChakraCarousel/ChakraCarousel';
+import { AddToHomeScreenModal } from './components/AddToHomeScreenModal';
+import { TashkeelModeSwitcher } from './components/TashkeelModeSwitcher';
 
 import {
   setWithExpiry,
   getWithExpiry,
   setInitialColorMode,
   fetchAthanTimes,
-  jsonFetch
+  jsonFetch,
 } from './helpers';
 
-import athkar from './resources/athkar.json'
+import athkar from './resources/athkar.json';
 import tashkeelAthkar from './resources/athkar_tashkeel.json';
 import nightAthkar from './resources/athkar_night.json';
 import tashkeelNightAthkar from './resources/athkar_night_tashkeel.json';
@@ -25,18 +25,23 @@ function setDarkModeOnAthan(toggleColor, is_light) {
   if (location) {
     const latitude = location.split(' ')[0];
     const longitude = location.split(' ')[1];
-    fetchAthanTimes(latitude, longitude)
-      .then(resp => setInitialColorMode(resp, toggleColor, is_light));
+    fetchAthanTimes(latitude, longitude).then((resp) =>
+      setInitialColorMode(resp, toggleColor, is_light)
+    );
   } else {
-    const key = "x95i5ncysbrcywd9";
-    jsonFetch(`https://api.ipregistry.co/?key=${key}`)
-      .then(resp => {
-        const latitude = resp.location.latitude;
-        const longitude = resp.location.longitude;
-        setWithExpiry('location_cooridnates', `${latitude} ${longitude}`, 2628000000);
-        fetchAthanTimes(latitude, longitude)
-          .then(resp => setInitialColorMode(resp, toggleColor, is_light));
-      });
+    const key = 'x95i5ncysbrcywd9';
+    jsonFetch(`https://api.ipregistry.co/?key=${key}`).then((resp) => {
+      const latitude = resp.location.latitude;
+      const longitude = resp.location.longitude;
+      setWithExpiry(
+        'location_cooridnates',
+        `${latitude} ${longitude}`,
+        2628000000
+      );
+      fetchAthanTimes(latitude, longitude).then((resp) =>
+        setInitialColorMode(resp, toggleColor, is_light)
+      );
+    });
   }
 }
 
@@ -50,7 +55,7 @@ function App() {
   const athkarNormal = useColorModeValue(athkar, nightAthkar);
   const athkarTashkeel = useColorModeValue(tashkeelAthkar, tashkeelNightAthkar);
   const is_light = useColorModeValue(true, false);
-  const athkarToMapOn = (tashkeelState === 0 ? athkarTashkeel : athkarNormal);
+  const athkarToMapOn = tashkeelState === 0 ? athkarTashkeel : athkarNormal;
 
   const memoizedReset = useCallback(() => {
     setTrackIsActive(true);
@@ -71,31 +76,34 @@ function App() {
       athkarCount,
       setActiveItem,
       setTrackIsActive,
-      memoizedReset
+      memoizedReset,
     };
-    return (<ThekrBox {...thekrBoxProps}/>);
+    return <ThekrBox {...thekrBoxProps} />;
   });
 
   const widths = {
-    base: "100%",
-    sm: "35rem",
-    md: "43.75rem",
-    lg: "57.5rem",
-    xl: "75rem",
-    xxl: "87.5rem"
+    base: '100%',
+    sm: '35rem',
+    md: '43.75rem',
+    lg: '57.5rem',
+    xl: '75rem',
+    xxl: '87.5rem',
   };
 
   const carouselProps = {
     activeItem,
     setActiveItem,
     trackIsActive,
-    setTrackIsActive
+    setTrackIsActive,
   };
 
   return (
     <Container py={20} px={0} maxW={widths}>
       <ColorModeSwitcher />
-      <TashkeelModeSwitcher currentState={tashkeelState} updateState={updateTashkeelState} />
+      <TashkeelModeSwitcher
+        currentState={tashkeelState}
+        updateState={updateTashkeelState}
+      />
       <ThekrHeader />
       <ChakraCarousel gap={32} {...carouselProps}>
         {athkarComps}

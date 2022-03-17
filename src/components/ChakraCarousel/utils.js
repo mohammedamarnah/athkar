@@ -9,7 +9,7 @@ export function debounce(limit, callback) {
       clearTimeout(timeoutId);
     }
     timeoutId = setTimeout(callback, limit, args);
-  }
+  };
 }
 
 export function capsFirst(str) {

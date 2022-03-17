@@ -1,4 +1,4 @@
-import { useState, useCallback, useLayoutEffect } from "react";
+import { useState, useCallback, useLayoutEffect } from 'react';
 
 const debounce = (limit, callback) => {
   let timeoutId;
@@ -20,7 +20,7 @@ function getDimensionObject(node) {
     x: rect.x,
     y: rect.y,
     right: rect.right,
-    bottom: rect.bottom
+    bottom: rect.bottom,
   };
 }
 
@@ -33,7 +33,7 @@ export function useBoundingRect(limit) {
   }, []);
 
   useLayoutEffect(() => {
-    if ("undefined" !== typeof window && node) {
+    if ('undefined' !== typeof window && node) {
       const measure = () =>
         window.requestAnimationFrame(() =>
           setDimensions(getDimensionObject(node))
@@ -43,11 +43,11 @@ export function useBoundingRect(limit) {
 
       const listener = debounce(limit ? limit : 100, measure);
 
-      window.addEventListener("resize", listener);
-      window.addEventListener("scroll", listener);
+      window.addEventListener('resize', listener);
+      window.addEventListener('scroll', listener);
       return () => {
-        window.removeEventListener("resize", listener);
-        window.removeEventListener("scroll", listener);
+        window.removeEventListener('resize', listener);
+        window.removeEventListener('scroll', listener);
       };
     }
   }, [node, limit]);

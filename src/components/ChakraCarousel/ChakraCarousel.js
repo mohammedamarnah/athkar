@@ -6,8 +6,8 @@ import React, {
   useEffect,
   useState,
   useMemo,
-  useRef
-} from "react";
+  useRef,
+} from 'react';
 
 import {
   useMediaQuery,
@@ -17,24 +17,31 @@ import {
   Button,
   Flex,
   Box,
-  useColorModeValue
-} from "@chakra-ui/react";
+  useColorModeValue,
+} from '@chakra-ui/react';
 
-import { ChevronRightIcon, ChevronLeftIcon } from "@chakra-ui/icons";
-import { motion, useAnimation, useMotionValue } from "framer-motion";
-import { useBoundingRect } from "./hooks";
-import { percentage } from "./utils";
+import { ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
+import { motion, useAnimation, useMotionValue } from 'framer-motion';
+import { useBoundingRect } from './hooks';
+import { percentage } from './utils';
 
 const MotionFlex = motion(Flex);
 
 const transitionProps = {
   stiffness: 400,
-  type: "spring",
+  type: 'spring',
   damping: 60,
-  mass: 3
+  mass: 3,
 };
 
-export const ChakraCarousel = ({ children, gap, activeItem, setActiveItem, trackIsActive, setTrackIsActive }) => {
+export const ChakraCarousel = ({
+  children,
+  gap,
+  activeItem,
+  setActiveItem,
+  trackIsActive,
+  setTrackIsActive,
+}) => {
   const [multiplier, setMultiplier] = useState(0.35);
   const [sliderWidth, setSliderWidth] = useState(0);
   const [constraint, setConstraint] = useState(0);
@@ -85,7 +92,7 @@ export const ChakraCarousel = ({ children, gap, activeItem, setActiveItem, track
     constraint,
     itemWidth,
     positions,
-    gap
+    gap,
   };
 
   const trackProps = {
@@ -98,7 +105,7 @@ export const ChakraCarousel = ({ children, gap, activeItem, setActiveItem, track
     multiplier,
     itemWidth,
     positions,
-    gap
+    gap,
   };
 
   const itemProps = {
@@ -109,7 +116,7 @@ export const ChakraCarousel = ({ children, gap, activeItem, setActiveItem, track
     constraint,
     itemWidth,
     positions,
-    gap
+    gap,
   };
 
   return (
@@ -134,21 +141,21 @@ const Slider = ({
   itemWidth,
   positions,
   children,
-  gap
+  gap,
 }) => {
   const [ref, { width }] = useBoundingRect();
 
-  useLayoutEffect(() => initSliderWidth(Math.round(width)), [
-    width,
-    initSliderWidth
-  ]);
+  useLayoutEffect(
+    () => initSliderWidth(Math.round(width)),
+    [width, initSliderWidth]
+  );
 
   const handleFocus = () => setTrackIsActive(true);
 
   const handleDecrementClick = () => {
     setTrackIsActive(true);
     !(activeItem === positions.length - positions.length) &&
-    setActiveItem((prev) => (prev - 1 < 0 ? positions.length - 1 : prev - 1));
+      setActiveItem((prev) => (prev - 1 < 0 ? positions.length - 1 : prev - 1));
   };
 
   const handleIncrementClick = () => {
@@ -157,60 +164,57 @@ const Slider = ({
   };
 
   const bgGradientR = useColorModeValue(
-    "",
-    "linear(to-r, base.d400, transparent)"
+    '',
+    'linear(to-r, base.d400, transparent)'
   );
 
   const bgGradientL = useColorModeValue(
-    "",
-    "linear(to-l, base.d400, transparent)"
+    '',
+    'linear(to-l, base.d400, transparent)'
   );
 
-  const buttonColors = useColorModeValue(
-    "orange.500",
-    "gray.200"
-  );
+  const buttonColors = useColorModeValue('orange.500', 'gray.200');
 
   return (
     <>
       <Box
         ref={ref}
-        w={{ base: "100%", md: `calc(100% + ${gap}px)` }}
+        w={{ base: '100%', md: `calc(100% + ${gap}px)` }}
         ml={{ base: 0, md: `-${gap / 2}px` }}
         px={`${gap / 2}px`}
-        position="relative"
-        overflow="hidden"
+        position='relative'
+        overflow='hidden'
         _before={{
-          bgGradient: {bgGradientR},
-          position: "absolute",
+          bgGradient: { bgGradientR },
+          position: 'absolute',
           w: `${gap / 2}px`,
           content: "''",
           zIndex: 1,
-          h: "100%",
+          h: '100%',
           left: 0,
-          top: 0
+          top: 0,
         }}
         _after={{
-          bgGradient: {bgGradientL},
-          position: "absolute",
+          bgGradient: { bgGradientL },
+          position: 'absolute',
           w: `${gap / 2}px`,
           content: "''",
           zIndex: 1,
-          h: "100%",
+          h: '100%',
           right: 0,
-          top: 0
+          top: 0,
         }}
       >
         {children}
       </Box>
 
-      <Flex w={`${itemWidth}px`} mt={`${gap / 2}px`} mx="auto">
+      <Flex w={`${itemWidth}px`} mt={`${gap / 2}px`} mx='auto'>
         <Button
           onClick={handleDecrementClick}
           onFocus={handleFocus}
           mr={`${gap / 3}px`}
           color={buttonColors}
-          variant="link"
+          variant='link'
           minW={0}
         >
           <ChevronLeftIcon boxSize={9} />
@@ -218,15 +222,15 @@ const Slider = ({
 
         <Progress
           value={percentage(activeItem, positions.length - constraint)}
-          alignSelf="center"
-          borderRadius="2px"
-          bg={useColorModeValue("gray.500", "base.d100")}
+          alignSelf='center'
+          borderRadius='2px'
+          bg={useColorModeValue('gray.500', 'base.d100')}
           flex={1}
-          h="3px"
+          h='3px'
           sx={{
-            "> div": {
-              backgroundColor: useColorModeValue("orange.500", "gray.400")
-            }
+            '> div': {
+              backgroundColor: useColorModeValue('orange.500', 'gray.400'),
+            },
           }}
         />
 
@@ -235,7 +239,7 @@ const Slider = ({
           onFocus={handleFocus}
           ml={`${gap / 3}px`}
           color={buttonColors}
-          variant="link"
+          variant='link'
           zIndex={2}
           minW={0}
         >
@@ -255,7 +259,7 @@ const Track = ({
   multiplier,
   itemWidth,
   positions,
-  children
+  children,
 }) => {
   const [dragStartPosition, setDragStartPosition] = useState(0);
   const controls = useAnimation();
@@ -288,8 +292,8 @@ const Track = ({
         x: closestPosition,
         transition: {
           velocity: info.velocity.x,
-          ...transitionProps
-        }
+          ...transitionProps,
+        },
       });
     } else {
       setActiveItem(positions.length - constraint);
@@ -297,8 +301,8 @@ const Track = ({
         x: positions[positions.length - constraint],
         transition: {
           velocity: info.velocity.x,
-          ...transitionProps
-        }
+          ...transitionProps,
+        },
       });
     }
   };
@@ -308,8 +312,8 @@ const Track = ({
       controls.start({
         x: positions[activeItem],
         transition: {
-          ...transitionProps
-        }
+          ...transitionProps,
+        },
       }),
     [activeItem, controls, positions]
   );
@@ -326,13 +330,13 @@ const Track = ({
     (event) => {
       if (trackIsActive) {
         if (activeItem < positions.length - constraint) {
-          if (event.key === "ArrowRight" || event.key === "ArrowUp") {
+          if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {
             event.preventDefault();
             setActiveItem((prev) => prev + 1);
           }
         }
         if (activeItem > positions.length - positions.length) {
-          if (event.key === "ArrowLeft" || event.key === "ArrowDown") {
+          if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') {
             event.preventDefault();
             setActiveItem((prev) => prev - 1);
           }
@@ -345,29 +349,29 @@ const Track = ({
   useEffect(() => {
     handleResize(positions);
 
-    document.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("mousedown", handleClick);
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('mousedown', handleClick);
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('mousedown', handleClick);
     };
   }, [handleClick, handleResize, handleKeyDown, positions]);
 
   return (
     <>
       {itemWidth && (
-        <VStack ref={node} spacing={5} alignItems="stretch">
+        <VStack ref={node} spacing={5} alignItems='stretch'>
           <MotionFlex
             dragConstraints={node}
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
             animate={controls}
             style={{ x }}
-            drag="x"
-            _active={{ cursor: "grabbing" }}
-            minWidth="min-content"
-            flexWrap="nowrap"
-            cursor="grab"
+            drag='x'
+            _active={{ cursor: 'grabbing' }}
+            minWidth='min-content'
+            flexWrap='nowrap'
+            cursor='grab'
           >
             {children}
           </MotionFlex>
@@ -386,7 +390,7 @@ const Item = ({
   positions,
   children,
   index,
-  gap
+  gap,
 }) => {
   const [userDidTab, setUserDidTab] = useState(false);
 
@@ -398,11 +402,11 @@ const Item = ({
   };
 
   const handleKeyUp = (event) =>
-    event.key === "Tab" &&
+    event.key === 'Tab' &&
     !(activeItem === positions.length - constraint) &&
     setActiveItem(index);
 
-  const handleKeyDown = (event) => event.key === "Tab" && setUserDidTab(true);
+  const handleKeyDown = (event) => event.key === 'Tab' && setUserDidTab(true);
 
   return (
     <Flex
@@ -412,9 +416,9 @@ const Item = ({
       onKeyDown={handleKeyDown}
       w={`${itemWidth}px`}
       _notLast={{
-        mr: `${gap}px`
+        mr: `${gap}px`,
       }}
-      py="4px"
+      py='4px'
     >
       {children}
     </Flex>
