@@ -2,16 +2,6 @@ export function jsonFetch(url) {
   return fetch(url).then((resp) => resp.json());
 }
 
-export function fetchAthanTimes(latitude, longitude) {
-  const now = new Date();
-  const month = now.getMonth() + 1;
-  const year = now.getFullYear();
-  const api = 'https://api.aladhan.com/v1/calendar';
-  return jsonFetch(
-    `${api}?latitude=${latitude}&longitude=${longitude}&method=4&month=${month}&year=${year}`
-  );
-}
-
 export function setWithExpiry(key, value, ttl) {
   const now = new Date();
 
@@ -46,19 +36,58 @@ export function timeIsLarger(time1, time2) {
   return new Date(`1/1/1999 ${time1}`) >= new Date(`1/1/1999 ${time2}`);
 }
 
-export function setInitialColorMode(resp, toggleColorMode, is_light) {
+export function fetchAthanTimes(latitude, longitude) {
   const now = new Date();
+  const month = now.getMonth() + 1;
+  const year = now.getFullYear();
+  const api = 'https://api.aladhan.com/v1/calendar';
+  return jsonFetch(
+    `${api}?latitude=${latitude}&longitude=${longitude}&method=4&month=${month}&year=${year}`
+  );
+}
+
+export function setInitialColorMode(resp, colorMode, toggleColorMode) {
+  const now = new Date();
+  const hours = now.getHours();
+  const minutes =  `${now.getMinutes() < 10 ? '0' : ''}${now.getMinutes()}`;
+  const currentTime = `${hours}:${minutes}`;
+
   const maghribTime =
     resp.data[now.getDate() - 1].timings.Maghrib.split(' ')[0];
   const fajrTime = (
     resp.data[now.getDate()] || resp.data[now.getDate() - 1]
   ).timings.Fajr.split(' ')[0];
-  const currentTime = `${now.getHours()}:${now.getMinutes() < 10 ? '0' : ''}${now.getMinutes()}`;
 
   if (
-    (timeIsLarger(currentTime, fajrTime) && !is_light) ||
-    (timeIsLarger(currentTime, maghribTime) && is_light)
+    (timeIsLarger(currentTime, fajrTime) && colorMode === 'dark') ||
+    (timeIsLarger(currentTime, maghribTime) && colorMode === 'light')
   ) {
     toggleColorMode();
+  }
+}
+
+export function setDarkModeOnAthan(colorMode, toggleColor) {
+  const location = getWithExpiry('location_coordinates');
+  if (location) {
+    const latitude = location.split(' ')[0];
+    const longitude = location.split(' ')[1];
+    fetchAthanTimes(latitude, longitude).then((resp) =>
+      setInitialColorMode(resp, colorMode, toggleColor)
+    );
+  } else {
+    console.log("fetching from ip registry again...");
+    const key = 'x95i5ncysbrcywd9';
+    jsonFetch(`https://api.ipregistry.co/?key=${key}`).then((resp) => {
+      const latitude = resp.location.latitude;
+      const longitude = resp.location.longitude;
+      setWithExpiry(
+        'location_coordinates',
+        `${latitude} ${longitude}`,
+        2628000000
+      );
+      fetchAthanTimes(latitude, longitude).then((resp) =>
+        setInitialColorMode(resp, colorMode, toggleColor)
+      );
+    });
   }
 }

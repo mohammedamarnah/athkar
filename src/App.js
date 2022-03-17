@@ -1,60 +1,35 @@
+// React Components
 import { useCallback, useEffect, useState } from 'react';
 import { Container, useColorMode, useColorModeValue } from '@chakra-ui/react';
 
+// Custom Components
 import { ThekrHeader, ThekrBox } from './components/Thekr';
 import { ColorModeSwitcher } from './components/ColorModeSwitcher';
 import ChakraCarousel from './components/ChakraCarousel/ChakraCarousel';
 import { AddToHomeScreenModal } from './components/AddToHomeScreenModal';
 import { TashkeelModeSwitcher } from './components/TashkeelModeSwitcher';
 
-import {
-  setWithExpiry,
-  getWithExpiry,
-  setInitialColorMode,
-  fetchAthanTimes,
-  jsonFetch,
-} from './helpers';
+// Helpers
+import { setDarkModeOnAthan } from './helpers';
 
+// Morning Athkar Resources
 import athkar from './resources/athkar.json';
 import tashkeelAthkar from './resources/athkar_tashkeel.json';
+
+// Night Athkar Resources
 import nightAthkar from './resources/athkar_night.json';
 import tashkeelNightAthkar from './resources/athkar_night_tashkeel.json';
 
-function setDarkModeOnAthan(toggleColor, is_light) {
-  const location = getWithExpiry('location_coordinates');
-  if (location) {
-    const latitude = location.split(' ')[0];
-    const longitude = location.split(' ')[1];
-    fetchAthanTimes(latitude, longitude).then((resp) =>
-      setInitialColorMode(resp, toggleColor, is_light)
-    );
-  } else {
-    const key = 'x95i5ncysbrcywd9';
-    jsonFetch(`https://api.ipregistry.co/?key=${key}`).then((resp) => {
-      const latitude = resp.location.latitude;
-      const longitude = resp.location.longitude;
-      setWithExpiry(
-        'location_coordinates',
-        `${latitude} ${longitude}`,
-        2628000000
-      );
-      fetchAthanTimes(latitude, longitude).then((resp) =>
-        setInitialColorMode(resp, toggleColor, is_light)
-      );
-    });
-  }
-}
-
 function App() {
-  const { toggleColorMode } = useColorMode();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   const [tashkeelState, updateTashkeelState] = useState(0);
   const [activeItem, setActiveItem] = useState(0);
   const [trackIsActive, setTrackIsActive] = useState(false);
+  const [runCount, setRunCount] = useState(0);
 
   const athkarNormal = useColorModeValue(athkar, nightAthkar);
   const athkarTashkeel = useColorModeValue(tashkeelAthkar, tashkeelNightAthkar);
-  const is_light = useColorModeValue(true, false);
   const athkarToMapOn = tashkeelState === 0 ? athkarTashkeel : athkarNormal;
 
   const memoizedReset = useCallback(() => {
@@ -63,8 +38,10 @@ function App() {
   }, []);
 
   useEffect(() => {
-    setDarkModeOnAthan(toggleColorMode, is_light);
-  }, []);
+    if (runCount >= 2) return;
+    setRunCount(count => count + 1);
+    setDarkModeOnAthan(colorMode, toggleColorMode);
+  }, [runCount, colorMode, toggleColorMode]);
 
   const athkarComps = athkarToMapOn.map((t, i) => {
     const key = i;
