@@ -34,7 +34,7 @@ function setDarkModeOnAthan(toggleColor, is_light) {
       const latitude = resp.location.latitude;
       const longitude = resp.location.longitude;
       setWithExpiry(
-        'location_cooridnates',
+        'location_coordinates',
         `${latitude} ${longitude}`,
         2628000000
       );
