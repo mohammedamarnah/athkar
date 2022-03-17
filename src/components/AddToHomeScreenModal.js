@@ -17,10 +17,13 @@ import {
 
 export function AddToHomeScreenModal() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const buttonColor = useColorModeValue('orange', 'teal');
+  const modalBgColor = useColorModeValue('orange.50', 'base.d400');
+  const textColor = useColorModeValue('black', 'white');
   return (
     <Center paddingBottom={3}>
       <Button
-        colorScheme={useColorModeValue('orange', 'teal')}
+        colorScheme={buttonColor}
         variant='ghost'
         rightIcon={<PlusSquareIcon />}
         onClick={onOpen}
@@ -35,15 +38,17 @@ export function AddToHomeScreenModal() {
         isCentered
       >
         <ModalOverlay bg='none' backdropFilter='blur(5px)' />
-        <ModalContent>
-          <ModalHeader color='black'>إضافة الأذكار للشاشة الرئيسية</ModalHeader>
+        <ModalContent bgColor={modalBgColor}>
+          <ModalHeader color={textColor} paddingLeft={20} fontFamily='Cairo'>
+            إضافة الأذكار للشاشة الرئيسية
+          </ModalHeader>
           <ModalCloseButton />
-          <ModalBody color='black'>
+          <ModalBody color={textColor}>
             <Text dir='rtl'>
               يمكنك إضافة الموقع كبرنامج على الصفحة الرئيسية من خلال الخطوات
               التالية:
             </Text>
-            <Text dir='rtl'>
+            <Text dir='rtl' fontSize='sm'>
               ملاحظة: متصفح Google Chrome غير مدعوم على هواتف الايفون و iOS.
             </Text>
             <Text>1.</Text>
