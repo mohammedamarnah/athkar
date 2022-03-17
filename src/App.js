@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Container, useColorMode, useColorModeValue } from '@chakra-ui/react'
 
+import { AddToHomeScreenModal } from './components/AddToHomeScreenModal';
 import { ThekrHeader, ThekrBox } from './components/Thekr';
 import { ColorModeSwitcher } from './components/ColorModeSwitcher';
 import { TashkeelModeSwitcher } from './components/TashkeelModeSwitcher';
@@ -99,6 +100,7 @@ function App() {
       <ChakraCarousel gap={32} {...carouselProps}>
         {athkarComps}
       </ChakraCarousel>
+      <AddToHomeScreenModal />
     </Container>
   );
 }
