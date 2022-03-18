@@ -1,3 +1,4 @@
+import platform from 'platform';
 import { PlusSquareIcon } from '@chakra-ui/icons';
 import {
   Box,
@@ -20,6 +21,15 @@ export function AddToHomeScreenModal() {
   const buttonColor = useColorModeValue('orange', 'teal');
   const modalBgColor = useColorModeValue('orange.50', 'base.d400');
   const textColor = useColorModeValue('black', 'white');
+  const boxLineColor = useColorModeValue('orange.200', 'teal.400');
+
+  const platforms = ["Android", "iOS"];
+  const os = platforms.find((p) => p === platform.os.family) || "iOS";
+  const images = {
+    "Android": [1,2,3].map((i)=>`images/step${i}_android.jpeg`),
+    "iOS": [1,2,3].map((i)=>`images/step${i}.png`)
+  }[os];
+
   return (
     <Center paddingBottom={3}>
       <Button
@@ -52,13 +62,13 @@ export function AddToHomeScreenModal() {
               ملاحظة: متصفح Google Chrome غير مدعوم على هواتف الايفون و iOS.
             </Text>
             <Text>1.</Text>
-            <Image src='images/step1.jpg'></Image>
-            <Box margin={2} bgColor='teal.400' height={1} />
+            <Image src={images[0]}></Image>
+            <Box margin={4} bgColor={boxLineColor} height={1} />
             <Text>2.</Text>
-            <Image src='images/step2.PNG'></Image>
-            <Box margin={2} bgColor='teal.400' height={1} />
+            <Image src={images[1]}></Image>
+            <Box margin={4} bgColor={boxLineColor} height={1} />
             <Text>3.</Text>
-            <Image src='images/step3.PNG'></Image>
+            <Image src={images[2]}></Image>
           </ModalBody>
         </ModalContent>
       </Modal>
