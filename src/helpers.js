@@ -46,7 +46,7 @@ export function setInitialColorMode(resp, colorMode, toggleColorMode) {
   const currentTime = `${hours}:${minutes}`;
 
   const maghribTime =
-    resp.data[now.getDate() - 1].timings.Maghrib.split(' ')[0];
+    resp.data[now.getDate() - 1].timings.Asr.split(' ')[0];
   const fajrTime = (
     resp.data[now.getDate()] || resp.data[now.getDate() - 1]
   ).timings.Fajr.split(' ')[0];
