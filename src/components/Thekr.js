@@ -138,7 +138,7 @@ export function ThekrBox({
   };
 
   return (
-    <VStack spacing={-5}>
+    <VStack spacing={-5} width='100%'>
       <ThekrContent thekrInfo={thekr} />
       <ThekrCounter
         totalCount={parseInt(thekr.count)}
