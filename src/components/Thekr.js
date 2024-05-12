@@ -45,7 +45,7 @@ export function ThekrContent({ thekrInfo }) {
         <Heading w='full' fontSize='lg' mb={2} color={innerColor}>
           {thekrInfo.header}
         </Heading>
-        <Text w='full' fontSize='md'>
+        <Text w='full' fontSize='25' fontFamily='Lateef'>
           {thekrInfo.body}
           <Text as='span' w='full' color='gray.500' fontSize='sm'>
             {thekrInfo.subtitle}
