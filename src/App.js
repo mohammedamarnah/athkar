@@ -58,14 +58,8 @@ function App() {
     return <ThekrBox {...thekrBoxProps} />;
   });
 
-  const widths = {
-    base: '100%',
-    sm: '35rem',
-    md: '43.75rem',
-    lg: '57.5rem',
-    xl: '75rem',
-    xxl: '87.5rem',
-  };
+  // Fluid on phones, capped to a phone-like width on larger screens
+  const maxWidth = '30rem';
 
   const carouselProps = {
     activeItem,
@@ -75,7 +69,7 @@ function App() {
   };
 
   return (
-    <Container py={20} px={0} maxW={widths}>
+    <Container py={20} px={0} maxW={maxWidth}>
       <ColorModeSwitcher />
       <TashkeelModeSwitcher
         currentState={tashkeelState}

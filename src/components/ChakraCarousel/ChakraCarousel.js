@@ -10,8 +10,6 @@ import React, {
 } from 'react';
 
 import {
-  useMediaQuery,
-  useTheme,
   Progress,
   VStack,
   Button,
@@ -42,10 +40,12 @@ export const ChakraCarousel = ({
   trackIsActive,
   setTrackIsActive,
 }) => {
-  const [multiplier, setMultiplier] = useState(0.35);
   const [sliderWidth, setSliderWidth] = useState(0);
-  const [constraint, setConstraint] = useState(0);
-  const [itemWidth, setItemWidth] = useState(0);
+
+  // Always show a single card (mobile layout), regardless of screen size
+  const multiplier = 0.65;
+  const constraint = 1;
+  const itemWidth = sliderWidth - gap;
 
   const initSliderWidth = useCallback((width) => setSliderWidth(width), []);
 
@@ -53,36 +53,6 @@ export const ChakraCarousel = ({
     () => children.map((_, index) => -Math.abs((itemWidth + gap) * index)),
     [children, itemWidth, gap]
   );
-
-  const { breakpoints } = useTheme();
-
-  const [isBetweenBaseAndMd] = useMediaQuery(
-    `(min-width: ${breakpoints.base}) and (max-width: ${breakpoints.md})`
-  );
-
-  const [isBetweenMdAndXl] = useMediaQuery(
-    `(min-width: ${breakpoints.md}) and (max-width: ${breakpoints.xl})`
-  );
-
-  const [isGreaterThanXL] = useMediaQuery(`(min-width: ${breakpoints.xl})`);
-
-  useEffect(() => {
-    if (isBetweenBaseAndMd) {
-      setItemWidth(sliderWidth - gap);
-      setMultiplier(0.65);
-      setConstraint(1);
-    }
-    if (isBetweenMdAndXl) {
-      setItemWidth(sliderWidth / 2 - gap);
-      setMultiplier(0.5);
-      setConstraint(2);
-    }
-    if (isGreaterThanXL) {
-      setItemWidth(sliderWidth / 3 - gap);
-      setMultiplier(0.35);
-      setConstraint(3);
-    }
-  }, [isBetweenBaseAndMd, isBetweenMdAndXl, isGreaterThanXL, sliderWidth, gap]);
 
   const sliderProps = {
     setTrackIsActive,
@@ -179,8 +149,7 @@ const Slider = ({
     <>
       <Box
         ref={ref}
-        w={{ base: '100%', md: `calc(100% + ${gap}px)` }}
-        ml={{ base: 0, md: `-${gap / 2}px` }}
+        w='100%'
         px={`${gap / 2}px`}
         position='relative'
         overflow='hidden'
